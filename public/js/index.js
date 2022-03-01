@@ -86,3 +86,4 @@ ulkenviroBen()
 mppenviroBen()
 agaenviroBen()
 
+setInterval(ulkData, 900000)

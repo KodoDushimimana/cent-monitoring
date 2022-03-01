@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/5644cc35b0.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./styles/index.css">
+    <title>Centennial Solar Monitoring Platform</title>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="heading">
+            <div class="cent_logo">
+                <ul>
+                    <li>
+                        <a href="#"><img src="" alt="logo">Centennial Logo</a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <div>
+                <ul>
+                    <li>
+                        <a href="">Home</a>
+                    </li>
+                    <li>
+                        <a href="">Support</a>
+                    </li>
+                    
+                </ul>
+                <!-- <div>
+                    <form action="add" method="post">
+                        <label for="site_name"> Site Name</label>
+                        <input type="text" name="siteName" id="site_name">
+                        <button>Add</button>
+                    </form>
+                </div> -->
+            </div>
+        </div>
+        <div class="sites-plan">
+            <div class="site-plan-heading">
+                <ul>
+                    <li>
+                        <span> Site Name</span>
+                        <span>Last Update</span>
+                        <span>Energy Today [Wh]</span>
+                    </li>
+                    
+                </ul>
+                <div class="ulk">
+                    <ul>
+                        <li>
+                            <span><a href="https://monitoring.solaredge.com/solaredge-web/p/site/643155/#/dashboard" target="_blank">ULK</a></span>
+                            <span id="last_updated_ulk">Last Updated</span>
+                            <span id="energy_today_ulk">Energy Today</span>
+                        </li>
+                        
+                        
+                    </ul>
+                </div>
+                <div class="mpp">
+                    <ul>
+                        <li>
+                           <span> <a href="https://monitoring.solaredge.com/solaredge-web/p/site/704668/#/dashboard" target="_blank">Makuza Peace Plaza</a></span>
+                           <span id="last_updated_mpp">Last Updated</span>
+                            <span id="energy_today_mpp">Energy Today</span>
+
+                        </li>
+                        
+                    </ul>
+                </div>
+                <div class="agahozo">
+                    <ul>
+                        <li>
+                            <span><a href="https://monitoring.solaredge.com/solaredge-web/p/site/595753/#/dashboard" target="_blank">Agahozo</a></span>
+                            <span id="last_updated_agahozo">Last Updated</span>
+                            <span id="energy_today_agahozo">Energy Today</span>
+                        </li>
+                      
+                        
+                    </ul>
+                </div>
+            </div>
+            <div class="envBenefit">
+                <h1>Environmental Benefit</h1>
+            </div>
+            <div class="enviro">
+                <div class="ulkenviro">
+
+                    <img src="./img/tree.png" alt="">
+                    <p>ULK<span id="ulkTree"></span></p><br>
+                    <p>CO2 &nbsp;&nbsp;:<span id="ulk_corbon"></span>lb</p>
+
+                </div>
+                <div class="mppenviro">
+                    <img src="./img/tree.png" alt="">
+                    <p>MPP<span id="mppTree"></span></p><br>
+                    <p>CO2 &nbsp;&nbsp;:<span id="mpp_corbon"></span>lb</p>
+                </div>
+                <div class="agaenviro">
+                    <img src="./img/tree.png" alt="">
+                    <p>Agahozo<span id="agaTree"></span></p><br>
+                    <p>CO2 &nbsp;&nbsp;:<span id="aga_corbon"></span>lb</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./js/index.js"></script>
+</body>
+</html>

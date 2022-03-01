@@ -29,8 +29,10 @@ const aga_enviro = ` https://monitoringapi.solaredge.com/site/${agaID}/envBenefi
 
 
 let now = moment().format('LLLL')
+const midNight = moment().subtract(1,'days').startOf('day').toString()
 
-console.log(now)
+console.log(`this is now ${now}`)
+console.log(` Last Day ${midNight}`)
 
 
 
@@ -49,8 +51,30 @@ app.get('/ulkapi', async(req, res) =>{
     const lastUpdate = data.overview. lastUpdateTime
     const energyToday = data.overview.lastDayData.energy
 
-    
-    base('Monitoring').create([
+    if(lastUpdate < now){
+      base('Monitoring').update([
+        {
+          "id": "recY2tnaXxGYpuz5y",
+          "fields": {
+            "Last Update": lastUpdate,
+            "Today's Energy [Wh]": energyToday
+          }
+        }
+      ], function(err, records) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        records.forEach(function(record) {
+          console.log(record.get('Last Update'));
+        });
+      });
+
+      
+
+    }else if(lastUpdate === midNight){
+
+      base('Monitoring').create([
         {
           "fields": {
               "Last Update": lastUpdate,
@@ -68,29 +92,10 @@ app.get('/ulkapi', async(req, res) =>{
         });
       });
 
-      if(lastUpdate < now){
-        base('Monitoring').update([
-            {
-              "id": "recY2tnaXxGYpuz5y",
-              "fields": {
-                "Last Update": lastUpdate,
-                "Today's Energy [Wh]": energyToday
-              }
-            }
-          ], function(err, records) {
-            if (err) {
-              console.error(err);
-              return;
-            }
-            records.forEach(function(record) {
-              console.log(record.get('Last Update'));
-            });
-          });
-    }else{
-        
-        console.log(`now is ${now}`)
-    }
+    } 
+    
 
+   
 
 })
 

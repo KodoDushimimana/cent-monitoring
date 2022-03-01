@@ -2,16 +2,18 @@ const express = require('express')
 const res = require('express/lib/response')
 const fetch = require('node-fetch')
 const Airtable = require('airtable');
-var moment = require('moment')
+const moment = require('moment')
+
+require('dotenv').config()
 
 const app = express()
 app.use(express.static('public'))
 app.use(express.json())
-const PORT = 3000
+const PORT =process.env.PORT || 3000
 
-const ulk = '81ESSHEQSE2CQEMEGPFQU5M8E78K8A4Q'
-const mpp = 'RJB3FFGJC9ELOE4JKS3TCDSX5VAZ5P4N'
-const aga = 'THI9KBS00EHBMIB5YKDSGZDY0SY0YJ5X'
+const ulk = process.env.ULK_API
+const mpp = process.env.MPP_API
+const aga = process.env.AGA_API
 
 const ulkID = 643155
 const mppID = 704668

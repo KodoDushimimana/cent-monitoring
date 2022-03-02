@@ -3,13 +3,19 @@ const res = require('express/lib/response')
 const fetch = require('node-fetch')
 const Airtable = require('airtable');
 const moment = require('moment')
+const schedule = require('node-schedule')
 
 require('dotenv').config()
+
+
+
 
 const app = express()
 app.use(express.static('public'))
 app.use(express.json())
 const PORT =process.env.PORT || 3000
+
+
 
 const ulk = process.env.ULK_API
 const mpp = process.env.MPP_API
@@ -50,49 +56,53 @@ app.get('/ulkapi', async(req, res) =>{
 
     const lastUpdate = data.overview. lastUpdateTime
     const energyToday = data.overview.lastDayData.energy
+    
+    const ulkUpdate =() =>{
+          if(lastUpdate < now){
+                base('Monitoring').update([
+                  {
+                    "id": "recY2tnaXxGYpuz5y",
+                    "fields": {
+                      "Last Update": lastUpdate,
+                      "Today's Energy [Wh]": energyToday
+                    }
+                  }
+                ], function(err, records) {
+                  if (err) {
+                    console.error(err);
+                    return;
+                  }
+                  records.forEach(function(record) {
+                    console.log(record.get('Last Update'));
+                  });
+                });    
 
-    if(lastUpdate < now){
-      base('Monitoring').update([
-        {
-          "id": "recY2tnaXxGYpuz5y",
-          "fields": {
-            "Last Update": lastUpdate,
-            "Today's Energy [Wh]": energyToday
-          }
-        }
-      ], function(err, records) {
-        if (err) {
-          console.error(err);
-          return;
-        }
-        records.forEach(function(record) {
-          console.log(record.get('Last Update'));
-        });
-      });
+                }else if(lastUpdate === midNight){
 
-      
+                base('Monitoring').create([
+                  {
+                    "fields": {
+                        "Last Update": lastUpdate,
+                        "Today's Energy [Wh]": energyToday
 
-    }else if(lastUpdate === midNight){
+                    }
+                  },
+                  ], function(err, records) {
+                  if (err) {
+                    console.error(err);
+                    return;
+                  }
+                  records.forEach(function (record) {
+                    console.log(record.getId());
+                  });
+                });
 
-      base('Monitoring').create([
-        {
-          "fields": {
-              "Last Update": lastUpdate,
-              "Today's Energy [Wh]": energyToday
+              } 
+    }
 
-          }
-        },
-        ], function(err, records) {
-        if (err) {
-          console.error(err);
-          return;
-        }
-        records.forEach(function (record) {
-          console.log(record.getId());
-        });
-      });
-
-    } 
+   schedule.scheduleJob('*/5 * * * *' , () =>{
+     ulkUpdate()
+   })
     
 
    

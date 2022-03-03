@@ -3,7 +3,7 @@ const res = require('express/lib/response')
 const fetch = require('node-fetch')
 const Airtable = require('airtable');
 const moment = require('moment')
-const schedule = require('node-schedule')
+var cron = require('node-cron')
 
 require('dotenv').config()
 
@@ -36,9 +36,11 @@ const aga_enviro = ` https://monitoringapi.solaredge.com/site/${agaID}/envBenefi
 
 let now = moment().format('LLLL')
 const midNight = moment().subtract(1,'days').startOf('day').toString()
+ 
 
-console.log(`this is now ${now}`)
-console.log(` Last Day ${midNight}`)
+
+
+
 
 
 
@@ -47,17 +49,15 @@ console.log(` Last Day ${midNight}`)
 
 const base = new Airtable({apiKey: 'keyRtSv4UAZ79Kpoy'}).base('appGWfv8R1VHPYYOA');
 
-app.get('/ulkapi', async(req, res) =>{
+app.get('/ulkapi', (req, res) =>{
 
-    const fetchUlk = await fetch(ulk_url)
-    const data = await fetchUlk.json()
-    res.send(data)
-   
+  const ulkData = async() =>{
+       const fetchUlk = await fetch(ulk_url)
+      const data = await fetchUlk.json()
+      res.send(data)
+      const lastUpdate = data.overview. lastUpdateTime
+      const energyToday = data.overview.lastDayData.energy
 
-    const lastUpdate = data.overview. lastUpdateTime
-    const energyToday = data.overview.lastDayData.energy
-    
-    const ulkUpdate =() =>{
           if(lastUpdate < now){
                 base('Monitoring').update([
                   {
@@ -98,14 +98,16 @@ app.get('/ulkapi', async(req, res) =>{
                 });
 
               } 
-    }
-
-   schedule.scheduleJob('*/5 * * * *' , () =>{
-     ulkUpdate()
-   })
-    
-
+             
+                
    
+    }
+    
+    
+    cron.schedule('*/15 * * * *' , () =>{
+      ulkData()
+      
+    })
 
 })
 

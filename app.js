@@ -98,16 +98,13 @@ app.get('/ulkapi', (req, res) =>{
                 });
 
               } 
-             
-                
-   
-    }
-    
-    
-    cron.schedule('*/15 * * * *' , () =>{
-      ulkData()
-      
-    })
+                  
+}
+        
+        
+        cron.schedule('*/15 * * * *' , () =>{
+          return ulkData()          
+        })
 
 })
 
